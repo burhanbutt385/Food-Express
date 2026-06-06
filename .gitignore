@@ -1,0 +1,9 @@
+*.obj
+*.exe
+compile_errors*.txt
+compile_out*.txt
+
+# Exclude other persons
+Person2/
+Person3/
+Person4/

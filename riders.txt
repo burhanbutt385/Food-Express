@@ -1,0 +1,4 @@
+RD01,AliKhan,Gulberg,3,0,1,4.8,12
+RD02,AhmedShah,Anarkali,3,0,1,4.5,8
+RD03,BilalRaza,DHA,3,0,1,4.9,15
+RD04,UsmanSiddique,JoharTown,3,0,1,4.2,5

@@ -1,0 +1,4 @@
+R01,ButtKarahi,Gulberg,5,0
+R02,SavourFoods,Anarkali,4,0
+R03,SaltAnPepper,DHA,3,0
+R04,BunduKhan,JoharTown,4,0
