@@ -2,8 +2,8 @@
 #define SEARCH_ENGINE_H
 
 #include "../Burhan/Order.h"
-#include "../Person2/Rider.h"
-#include "../Person2/Restaurant.h"
+#include "../Basit/Rider.h"
+#include "../Basit/Restaurant.h"
 #include "Customer.h"
 #include "../Burhan/CustomList.h"
 #include "../Burhan/CustomHashMap.h"
