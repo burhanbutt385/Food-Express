@@ -2,6 +2,7 @@
 #include "../Ahmer/Customer.h"
 #include <iostream>
 #include <limits>
+#include <cstdlib>
 
 InteractiveCLI::InteractiveCLI() : currentSimulationTime(0) {
     // Check files and create defaults if missing
@@ -102,6 +103,7 @@ static void clearInput() {
 void InteractiveCLI::start() {
     int choice = 0;
     while (true) {
+        system("cls");
         std::cout << "\n=========================================================" << std::endl;
         std::cout << "        FOODEXPRESS DISPATCH OPTIMIZATION ENGINE         " << std::endl;
         std::cout << "        [Simulated System Time: " << currentSimulationTime << " minutes]" << std::endl;
@@ -162,6 +164,11 @@ void InteractiveCLI::start() {
                 std::cout << "Invalid choice. Please select from options 1-11." << std::endl;
                 break;
         }
+
+        if (choice == 8 || choice == 9 || choice > 11) {
+            std::cout << "\nPress Enter to return to main menu...";
+            std::cin.get();
+        }
         
         // Auto-increment simulation clock by 1 minute on each menu operation
         currentSimulationTime++;
@@ -174,17 +181,26 @@ void InteractiveCLI::start() {
 
 void InteractiveCLI::runOrderSchedulingMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Dynamic Order Scheduling ---" << std::endl;
-    std::cout << "1. Insert New Food Order" << std::endl;
-    std::cout << "2. Cancel Active Order" << std::endl;
-    std::cout << "3. Update Order Priority Score" << std::endl;
-    std::cout << "4. Delay Order (Extend Deadline)" << std::endl;
-    std::cout << "5. Retrieve Next Processable Order" << std::endl;
-    std::cout << "Choose scheduling action: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Dynamic Order Scheduling ---" << std::endl;
+        std::cout << "1. Insert New Food Order" << std::endl;
+        std::cout << "2. Cancel Active Order" << std::endl;
+        std::cout << "3. Update Order Priority Score" << std::endl;
+        std::cout << "4. Delay Order (Extend Deadline)" << std::endl;
+        std::cout << "5. Retrieve Next Processable Order" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose scheduling action: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         std::string orderId, custId, restId;
         int prepTime, deadline;
         
@@ -322,19 +338,32 @@ void InteractiveCLI::runOrderSchedulingMenu() {
             std::cout << "[Scheduler] No active orders in priority queue." << std::endl;
         }
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runKitchenLoadMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Kitchen Load Analysis ---" << std::endl;
-    std::cout << "1. View Kitchen Workload Report" << std::endl;
-    std::cout << "2. View Overloaded Kitchens" << std::endl;
-    std::cout << "3. Estimate Waiting Time for an Order" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Kitchen Load Analysis ---" << std::endl;
+        std::cout << "1. View Kitchen Workload Report" << std::endl;
+        std::cout << "2. View Overloaded Kitchens" << std::endl;
+        std::cout << "3. Estimate Waiting Time for an Order" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         loadBalancer.balanceWorkloads(restaurants);
     } else if (subChoice == 2) {
         CustomList<Restaurant*> overloaded = loadBalancer.getOverloadedKitchens(restaurants);
@@ -364,20 +393,33 @@ void InteractiveCLI::runKitchenLoadMenu() {
             std::cout << "[KitchenLoadBalancer] Order ID not found." << std::endl;
         }
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runRiderDispatchMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Rider Dispatch Optimization ---" << std::endl;
-    std::cout << "1. View Rider Status Dashboard" << std::endl;
-    std::cout << "2. Auto-Dispatch Optimal Rider for Next Processable Order" << std::endl;
-    std::cout << "3. Mark Order Delivery Completion" << std::endl;
-    std::cout << "4. Toggle Rider Availability" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Rider Dispatch Optimization ---" << std::endl;
+        std::cout << "1. View Rider Status Dashboard" << std::endl;
+        std::cout << "2. Auto-Dispatch Optimal Rider for Next Processable Order" << std::endl;
+        std::cout << "3. Mark Order Delivery Completion" << std::endl;
+        std::cout << "4. Toggle Rider Availability" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         dispatchManager.displayRidersStatus(riders);
     } else if (subChoice == 2) {
         // Look at the top order in the priority queue
@@ -457,20 +499,33 @@ void InteractiveCLI::runRiderDispatchMenu() {
             std::cout << "[DispatchManager] Rider ID not found." << std::endl;
         }
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runRouteOptimizationMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Route Optimization ---" << std::endl;
-    std::cout << "1. Calculate Shortest Path between locations" << std::endl;
-    std::cout << "2. Block a Road (Dynamic Event)" << std::endl;
-    std::cout << "3. Unblock a Road" << std::endl;
-    std::cout << "4. Update Traffic Delay Multiplier" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Route Optimization ---" << std::endl;
+        std::cout << "1. Calculate Shortest Path between locations" << std::endl;
+        std::cout << "2. Block a Road (Dynamic Event)" << std::endl;
+        std::cout << "3. Unblock a Road" << std::endl;
+        std::cout << "4. Update Traffic Delay Multiplier" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         std::string start, end;
         std::cout << "Enter Start Node ID (e.g. Downtown): ";
         std::cin >> start;
@@ -529,21 +584,34 @@ void InteractiveCLI::runRouteOptimizationMenu() {
             std::cout << "[RouteOptimizer] Road connection not found." << std::endl;
         }
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runSearchEngineMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Search and Retrieval Engine (O(1) Indexed) ---" << std::endl;
-    std::cout << "1. Lookup Order by ID" << std::endl;
-    std::cout << "2. Lookup Rider by ID" << std::endl;
-    std::cout << "3. Filter Orders by Customer ID" << std::endl;
-    std::cout << "4. Show All Available Riders" << std::endl;
-    std::cout << "5. Show Loaded Restaurants (Threshold)" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Search and Retrieval Engine (O(1) Indexed) ---" << std::endl;
+        std::cout << "1. Lookup Order by ID" << std::endl;
+        std::cout << "2. Lookup Rider by ID" << std::endl;
+        std::cout << "3. Filter Orders by Customer ID" << std::endl;
+        std::cout << "4. Show All Available Riders" << std::endl;
+        std::cout << "5. Show Loaded Restaurants (Threshold)" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         std::string orderId;
         std::cout << "Enter Order ID: ";
         std::cin >> orderId;
@@ -633,18 +701,31 @@ void InteractiveCLI::runSearchEngineMenu() {
             }
         }
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runOrderHistoryMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Order History and Tracking ---" << std::endl;
-    std::cout << "1. Replay Order Status Timeline" << std::endl;
-    std::cout << "2. Undo Last Status Transition (Revert State)" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Order History and Tracking ---" << std::endl;
+        std::cout << "1. Replay Order Status Timeline" << std::endl;
+        std::cout << "2. Undo Last Status Transition (Revert State)" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    std::string orderId;
+        if (subChoice == 0) break;
+
+        std::string orderId;
     std::cout << "Enter Order ID: ";
     std::cin >> orderId;
     clearInput();
@@ -654,7 +735,9 @@ void InteractiveCLI::runOrderHistoryMenu() {
 
     if (o == nullptr) {
         std::cout << "Order ID not found." << std::endl;
-        return;
+        std::cout << "\nPress Enter to continue...";
+        std::cin.get();
+        continue;
     }
 
     if (subChoice == 1) {
@@ -682,23 +765,40 @@ void InteractiveCLI::runOrderHistoryMenu() {
             }
         }
     }
+        
+        std::cout << "\nPress Enter to continue...";
+        std::cin.get();
+    }
 }
 
 void InteractiveCLI::runPerformanceAnalysisMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Performance Analysis ---" << std::endl;
-    std::cout << "1. Run Scalability Benchmarks (Small, Medium, Large sizes)" << std::endl;
-    std::cout << "2. View Theoretical Complexity Report & Justifications" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Performance Analysis ---" << std::endl;
+        std::cout << "1. Run Scalability Benchmarks (Small, Medium, Large sizes)" << std::endl;
+        std::cout << "2. View Theoretical Complexity Report & Justifications" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    PerformanceAnalyzer analyzer;
+        if (subChoice == 0) break;
+
+        PerformanceAnalyzer analyzer;
     if (subChoice == 1) {
         analyzer.runScalabilitySimulation();
     } else if (subChoice == 2) {
         analyzer.printTheoreticalComplexityReport();
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }
 
 void InteractiveCLI::runScalabilitySimulationMenu() {
@@ -773,14 +873,23 @@ void InteractiveCLI::printSystemReports() {
 
 void InteractiveCLI::runEntityManagementMenu() {
     int subChoice = 0;
-    std::cout << "\n--- Entity Management ---" << std::endl;
-    std::cout << "1. Register New Restaurant" << std::endl;
-    std::cout << "2. Register New Rider" << std::endl;
-    std::cout << "Choose option: ";
-    std::cin >> subChoice;
-    clearInput();
+    while (true) {
+        system("cls");
+        std::cout << "\n--- Entity Management ---" << std::endl;
+        std::cout << "1. Register New Restaurant" << std::endl;
+        std::cout << "2. Register New Rider" << std::endl;
+        std::cout << "0. Go Back" << std::endl;
+        std::cout << "Choose option: ";
+        
+        if (!(std::cin >> subChoice)) {
+            clearInput();
+            continue;
+        }
+        clearInput();
 
-    if (subChoice == 1) {
+        if (subChoice == 0) break;
+
+        if (subChoice == 1) {
         std::string id, name, location;
         int capacity;
         std::cout << "Enter Restaurant ID (e.g. R99): ";
@@ -833,4 +942,8 @@ void InteractiveCLI::runEntityManagementMenu() {
         std::cout << "Rider " << name << " registered successfully." << std::endl;
         addNotification("New Rider added: " + name);
     }
+    
+    std::cout << "\nPress Enter to continue...";
+    std::cin.get();
+}
 }

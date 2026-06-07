@@ -4,3 +4,4 @@ C03,Zainab,DHA,1
 C04,Ayesha,JoharTown,0
 C05,Hamza,Samanabad,0
 C06,Mustafa,Shadman,1
+02,Customer 02,Downtown,0

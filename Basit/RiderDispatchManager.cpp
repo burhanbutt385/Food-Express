@@ -11,25 +11,7 @@ RiderDispatchManager::RiderDispatchManager() {}
 
 RiderDispatchManager::~RiderDispatchManager() {}
 
-static std::string getRestaurantNodeId(const std::string& restaurantID, const CustomList<Restaurant*>& restaurants) {
-    for (size_t i = 0; i < restaurants.getSize(); ++i) {
-        Restaurant* r = restaurants[i];
-        if (r && r->getRestaurantID() == restaurantID) {
-            return r->getLocationNodeID();
-        }
-    }
-    return "Gulberg";
-}
 
-static std::string getCustomerNodeId(const std::string& customerID, const CustomList<Customer*>& customers) {
-    for (size_t i = 0; i < customers.getSize(); ++i) {
-        Customer* c = customers[i];
-        if (c && c->getCustomerID() == customerID) {
-            return c->getLocationNodeID();
-        }
-    }
-    return "Gulberg";
-}
 
 Rider* RiderDispatchManager::findOptimalRider(Order* order, CustomList<Rider*>& riders,
                                             const CustomList<Restaurant*>& restaurants,
@@ -63,6 +45,9 @@ Rider* RiderDispatchManager::findOptimalRider(Order* order, CustomList<Rider*>& 
         // Fallback: assume the ID itself is a location or find it
         destNode = rId;
     }
+
+    double bestScore = std::numeric_limits<double>::max();
+    Rider* optimalRider = nullptr;
 
     CustomList<Rider*>::Node* current = riders.getHead();
     while (current != nullptr) {
@@ -105,7 +90,7 @@ bool RiderDispatchManager::assignRider(Rider* rider, Order* order) {
     return true;
 }
 
-void RiderDispatchManager::completeDelivery(Rider* rider, Order* order) {
+void RiderDispatchManager::completeDelivery(Rider* rider, Order* order, const CustomList<Customer*>& customers) {
     if (rider == nullptr || order == nullptr) return;
 
     rider->decrementLoad();

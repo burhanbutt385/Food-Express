@@ -18,6 +18,8 @@ private:
 
 public:
     CustomList();
+    CustomList(const CustomList& other);
+    CustomList& operator=(const CustomList& other);
     ~CustomList();
 
     void pushBack(const T& val);
@@ -36,6 +38,28 @@ public:
 
 template <typename T>
 CustomList<T>::CustomList() : head(nullptr), tail(nullptr), listSize(0) {}
+
+template <typename T>
+CustomList<T>::CustomList(const CustomList& other) : head(nullptr), tail(nullptr), listSize(0) {
+    Node* current = other.head;
+    while (current != nullptr) {
+        pushBack(current->data);
+        current = current->next;
+    }
+}
+
+template <typename T>
+CustomList<T>& CustomList<T>::operator=(const CustomList& other) {
+    if (this != &other) {
+        clear();
+        Node* current = other.head;
+        while (current != nullptr) {
+            pushBack(current->data);
+            current = current->next;
+        }
+    }
+    return *this;
+}
 
 template <typename T>
 CustomList<T>::~CustomList() {
