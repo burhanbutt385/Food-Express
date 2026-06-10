@@ -1,5 +1,6 @@
 #ifndef CUSTOM_QUEUE_H
 #define CUSTOM_QUEUE_H
+using namespace std;
 
 template <typename T>
 class CustomQueue {

@@ -25,7 +25,8 @@ public:
     void clear();
 };
 
-#include <stdexcept>
+#include <string>
+using namespace std;
 
 template <typename T>
 CustomStack<T>::CustomStack() : topNode(nullptr), stackSize(0) {}
@@ -55,7 +56,7 @@ void CustomStack<T>::pop() {
 template <typename T>
 T CustomStack<T>::top() const {
     if (isEmpty()) {
-        throw std::runtime_error("Stack is empty");
+        throw string("Stack is empty");
     }
     return topNode->data;
 }

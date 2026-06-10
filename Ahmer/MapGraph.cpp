@@ -1,7 +1,8 @@
 #include "MapGraph.h"
 #include <iostream>
+using namespace std;
 
-Edge::Edge(const std::string& dest, double dist, double traffic, bool blocked)
+Edge::Edge(const string& dest, double dist, double traffic, bool blocked)
     : destinationNodeID(dest), distance(dist), trafficMultiplier(traffic), isBlocked(blocked), next(nullptr) {}
 
 Vertex::Vertex() : locationNodeID(""), name(""), edgeHead(nullptr) {}
@@ -38,7 +39,7 @@ void MapGraph::resize() {
     vertices = newVertices;
 }
 
-void MapGraph::addLocation(const std::string& locationId, const std::string& name) {
+void MapGraph::addLocation(const string& locationId, const string& name) {
     if (locationExists(locationId)) return;
     
     if (vertexCount == capacity) {
@@ -50,7 +51,7 @@ void MapGraph::addLocation(const std::string& locationId, const std::string& nam
     vertexCount++;
 }
 
-void MapGraph::addRoad(const std::string& sourceId, const std::string& destinationId, 
+void MapGraph::addRoad(const string& sourceId, const string& destinationId, 
                        double distance, double trafficMultiplier, bool isBlocked) {
     addLocation(sourceId, sourceId); // ensure locations exist
     addLocation(destinationId, destinationId);
@@ -97,7 +98,7 @@ void MapGraph::addRoad(const std::string& sourceId, const std::string& destinati
     }
 }
 
-bool MapGraph::blockRoad(const std::string& sourceId, const std::string& destinationId) {
+bool MapGraph::blockRoad(const string& sourceId, const string& destinationId) {
     int u = findVertexIndex(sourceId);
     int v = findVertexIndex(destinationId);
 
@@ -127,7 +128,7 @@ bool MapGraph::blockRoad(const std::string& sourceId, const std::string& destina
     return found;
 }
 
-bool MapGraph::unblockRoad(const std::string& sourceId, const std::string& destinationId) {
+bool MapGraph::unblockRoad(const string& sourceId, const string& destinationId) {
     int u = findVertexIndex(sourceId);
     int v = findVertexIndex(destinationId);
 
@@ -157,7 +158,7 @@ bool MapGraph::unblockRoad(const std::string& sourceId, const std::string& desti
     return found;
 }
 
-bool MapGraph::setTrafficFactor(const std::string& sourceId, const std::string& destinationId, double multiplier) {
+bool MapGraph::setTrafficFactor(const string& sourceId, const string& destinationId, double multiplier) {
     int u = findVertexIndex(sourceId);
     int v = findVertexIndex(destinationId);
 
@@ -191,7 +192,7 @@ int MapGraph::getVertexCount() const {
     return vertexCount;
 }
 
-int MapGraph::findVertexIndex(const std::string& locationId) const {
+int MapGraph::findVertexIndex(const string& locationId) const {
     for (int i = 0; i < vertexCount; i++) {
         if (vertices[i].locationNodeID == locationId) {
             return i;
@@ -200,17 +201,17 @@ int MapGraph::findVertexIndex(const std::string& locationId) const {
     return -1;
 }
 
-std::string MapGraph::getVertexIdAt(int index) const {
+string MapGraph::getVertexIdAt(int index) const {
     if (index < 0 || index >= vertexCount) return "";
     return vertices[index].locationNodeID;
 }
 
-std::string MapGraph::getVertexNameAt(int index) const {
+string MapGraph::getVertexNameAt(int index) const {
     if (index < 0 || index >= vertexCount) return "";
     return vertices[index].name;
 }
 
-Edge* MapGraph::getEdgesFrom(const std::string& locationId) const {
+Edge* MapGraph::getEdgesFrom(const string& locationId) const {
     int u = findVertexIndex(locationId);
     if (u == -1) return nullptr;
     return vertices[u].edgeHead;
@@ -223,6 +224,6 @@ void MapGraph::clear() {
     vertices = new Vertex[capacity];
 }
 
-bool MapGraph::locationExists(const std::string& locationId) const {
+bool MapGraph::locationExists(const string& locationId) const {
     return findVertexIndex(locationId) != -1;
 }

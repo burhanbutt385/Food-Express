@@ -13,6 +13,7 @@
 #include "PerformanceAnalyzer.h"
 
 #include <string>
+using namespace std;
 
 class InteractiveCLI {
 private:
@@ -32,7 +33,7 @@ private:
     CustomList<Restaurant*> restaurants;
     CustomList<Rider*> riders;
     CustomList<OrderStatusHistory*> orderHistories;
-    CustomQueue<std::string> notifications;
+    CustomQueue<string> notifications;
 
     // Helper functions for menu options
     void runOrderSchedulingMenu();
@@ -47,8 +48,8 @@ private:
     void printSystemReports();
 
     // Internal helper to find OrderStatusHistory for an order
-    OrderStatusHistory* getOrCreateHistory(const std::string& orderId);
-    void addNotification(const std::string& msg);
+    OrderStatusHistory* getOrCreateHistory(const string& orderId);
+    void addNotification(const string& msg);
 
     // Initializer helpers
     void initializeIndexes();

@@ -1,5 +1,6 @@
 #ifndef CUSTOM_LIST_H
 #define CUSTOM_LIST_H
+using namespace std;
 
 template <typename T>
 class CustomList {

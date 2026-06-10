@@ -1,28 +1,29 @@
 #include "Order.h"
+using namespace std;
 
 Order::Order()
     : orderID(""), customerID(""), restaurantID(""), priorityScore(0.0),
       preparationTime(0), deliveryDeadline(0), status("Placed"), arrivalTime(0) {}
 
-Order::Order(const std::string& orderId, const std::string& customerId, const std::string& restaurantId,
-             int prepTime, int deadline, int arrival, const std::string& orderStatus)
+Order::Order(const string& orderId, const string& customerId, const string& restaurantId,
+             int prepTime, int deadline, int arrival, const string& orderStatus)
     : orderID(orderId), customerID(customerId), restaurantID(restaurantId), priorityScore(0.0),
       preparationTime(prepTime), deliveryDeadline(deadline), status(orderStatus), arrivalTime(arrival) {
     // Basic priority calculation on creation
     calculatePriority(false, arrival);
 }
 
-std::string Order::getOrderID() const { return orderID; }
-std::string Order::getCustomerID() const { return customerID; }
-std::string Order::getRestaurantID() const { return restaurantID; }
+string Order::getOrderID() const { return orderID; }
+string Order::getCustomerID() const { return customerID; }
+string Order::getRestaurantID() const { return restaurantID; }
 double Order::getPriorityScore() const { return priorityScore; }
 int Order::getPreparationTime() const { return preparationTime; }
 int Order::getDeliveryDeadline() const { return deliveryDeadline; }
-std::string Order::getStatus() const { return status; }
+string Order::getStatus() const { return status; }
 int Order::getArrivalTime() const { return arrivalTime; }
 
 void Order::setPriorityScore(double score) { priorityScore = score; }
-void Order::setStatus(const std::string& newStatus) { status = newStatus; }
+void Order::setStatus(const string& newStatus) { status = newStatus; }
 void Order::setDeliveryDeadline(int deadline) { deliveryDeadline = deadline; }
 void Order::setPreparationTime(int prepTime) { preparationTime = prepTime; }
 

@@ -1,4 +1,5 @@
 #include "OrderSchedulingEngine.h"
+using namespace std;
 
 OrderSchedulingEngine::OrderSchedulingEngine() {}
 
@@ -25,7 +26,7 @@ void OrderSchedulingEngine::insertOrder(Order* order, bool isVIP, int currentSim
     activeOrdersQueue.insert(order);
 }
 
-bool OrderSchedulingEngine::cancelOrder(const std::string& orderId) {
+bool OrderSchedulingEngine::cancelOrder(const string& orderId) {
     // Remove from active queue
     bool removed = activeOrdersQueue.remove(orderId);
     if (removed) {
@@ -42,11 +43,11 @@ bool OrderSchedulingEngine::cancelOrder(const std::string& orderId) {
     return removed;
 }
 
-bool OrderSchedulingEngine::updateOrderPriority(const std::string& orderId, double newScore) {
+bool OrderSchedulingEngine::updateOrderPriority(const string& orderId, double newScore) {
     return activeOrdersQueue.updatePriority(orderId, newScore);
 }
 
-bool OrderSchedulingEngine::delayOrder(const std::string& orderId, int delayMinutes, int currentSimTime) {
+bool OrderSchedulingEngine::delayOrder(const string& orderId, int delayMinutes, int currentSimTime) {
     Order** heapArray = activeOrdersQueue.getHeapArray();
     int size = activeOrdersQueue.size();
     
@@ -105,11 +106,11 @@ void OrderSchedulingEngine::rescheduleActiveOrders(int currentSimTime) {
     delete[] activeList;
 }
 
-void OrderSchedulingEngine::setCustomerVIPStatus(const std::string& customerId, bool isVIP) {
+void OrderSchedulingEngine::setCustomerVIPStatus(const string& customerId, bool isVIP) {
     vipCustomerMap.put(customerId, isVIP);
 }
 
-bool OrderSchedulingEngine::isCustomerVIP(const std::string& customerId) const {
+bool OrderSchedulingEngine::isCustomerVIP(const string& customerId) const {
     bool isVIP = false;
     vipCustomerMap.get(customerId, isVIP);
     return isVIP;

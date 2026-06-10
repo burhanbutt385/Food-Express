@@ -3,6 +3,7 @@
 
 #include "CustomList.h"
 #include <string>
+using namespace std;
 
 // Forward declarations to avoid circular dependencies
 class Customer;
@@ -13,21 +14,21 @@ class MapGraph;
 
 class FilePersistence {
 private:
-    std::string customersFile;
-    std::string restaurantsFile;
-    std::string ridersFile;
-    std::string ordersFile;
-    std::string mapFile;
+    string customersFile;
+    string restaurantsFile;
+    string ridersFile;
+    string ordersFile;
+    string mapFile;
 
     void generateDefaultFiles();
 
 public:
     FilePersistence(
-        const std::string& customersPath = "customers.txt",
-        const std::string& restaurantsPath = "restaurants.txt",
-        const std::string& ridersPath = "riders.txt",
-        const std::string& ordersPath = "orders.txt",
-        const std::string& mapPath = "map.txt"
+        const string& customersPath = "customers.txt",
+        const string& restaurantsPath = "restaurants.txt",
+        const string& ridersPath = "riders.txt",
+        const string& ordersPath = "orders.txt",
+        const string& mapPath = "map.txt"
     );
 
     // Creates default data if files do not exist

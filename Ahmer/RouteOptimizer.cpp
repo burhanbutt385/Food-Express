@@ -1,12 +1,13 @@
 #include "RouteOptimizer.h"
 #include <iostream>
+using namespace std;
 
 RouteOptimizer::RouteOptimizer() {}
 
 RouteOptimizer::~RouteOptimizer() {}
 
 // Core Dijkstra implementation
-static void runDijkstra(const std::string& startId, const MapGraph& graph, bool optimizeForTime, 
+static void runDijkstra(const string& startId, const MapGraph& graph, bool optimizeForTime, 
                         double* dist, int* prev) {
     int V = graph.getVertexCount();
     int startIndex = graph.findVertexIndex(startId);
@@ -40,7 +41,7 @@ static void runDijkstra(const std::string& startId, const MapGraph& graph, bool 
         visited[u] = true;
 
         // Update dist value of the adjacent vertices of the picked vertex.
-        std::string uId = graph.getVertexIdAt(u);
+        string uId = graph.getVertexIdAt(u);
         Edge* edge = graph.getEdgesFrom(uId);
         while (edge != nullptr) {
             // REROUTING: If the road is blocked, skip it
@@ -67,7 +68,7 @@ static void runDijkstra(const std::string& startId, const MapGraph& graph, bool 
     delete[] visited;
 }
 
-double RouteOptimizer::calculateShortestDistance(const std::string& startId, const std::string& endId, 
+double RouteOptimizer::calculateShortestDistance(const string& startId, const string& endId, 
                                                  const MapGraph& graph, bool optimizeForTime) const {
     if (startId == endId) return 0.0;
 
@@ -88,9 +89,9 @@ double RouteOptimizer::calculateShortestDistance(const std::string& startId, con
     return result;
 }
 
-CustomList<std::string> RouteOptimizer::findShortestPath(const std::string& startId, const std::string& endId, 
+CustomList<string> RouteOptimizer::findShortestPath(const string& startId, const string& endId, 
                                                         const MapGraph& graph, bool optimizeForTime) const {
-    CustomList<std::string> path;
+    CustomList<string> path;
     if (!graph.locationExists(startId) || !graph.locationExists(endId)) return path;
 
     int V = graph.getVertexCount();
@@ -114,7 +115,7 @@ CustomList<std::string> RouteOptimizer::findShortestPath(const std::string& star
     return path;
 }
 
-double RouteOptimizer::calculateTravelTime(const std::string& startId, const std::string& endId, const MapGraph& graph) const {
+double RouteOptimizer::calculateTravelTime(const string& startId, const string& endId, const MapGraph& graph) const {
     // Travel time optimization is standard. 
     // Distance * traffic multiplier gives effective distance.
     // Assuming 50 km/h average speed: travel time in minutes = effective distance * 1.2
@@ -133,8 +134,8 @@ double RouteOptimizer::estimateDeliveryFee(double distance, double averageTraffi
     return 2.50 + (distance * 0.75) * averageTrafficMultiplier;
 }
 
-void RouteOptimizer::printRouteDetails(const std::string& startId, const std::string& endId, const MapGraph& graph) const {
-    std::cout << "Calculating route from [" << startId << "] to [" << endId << "]..." << std::endl;
+void RouteOptimizer::printRouteDetails(const string& startId, const string& endId, const MapGraph& graph) const {
+    cout << "Calculating route from [" << startId << "] to [" << endId << "]..." << endl;
     
     // Compare time vs distance optimization
     double rawDistance = calculateShortestDistance(startId, endId, graph, false); // distance optimized
@@ -142,26 +143,26 @@ void RouteOptimizer::printRouteDetails(const std::string& startId, const std::st
     double travelTime = calculateTravelTime(startId, endId, graph);
 
     if (rawDistance >= 1e9) {
-        std::cout << "[RouteOptimizer] Error: No route exists between " << startId << " and " << endId 
-                  << " (roads might be blocked)." << std::endl;
+        cout << "[RouteOptimizer] Error: No route exists between " << startId << " and " << endId 
+                  << " (roads might be blocked)." << endl;
         return;
     }
 
-    CustomList<std::string> path = findShortestPath(startId, endId, graph, true);
+    CustomList<string> path = findShortestPath(startId, endId, graph, true);
     
-    std::cout << "\n--- Route Optimization Summary ---" << std::endl;
-    std::cout << "Optimized Path : ";
-    CustomList<std::string>::Node* node = path.getHead();
+    cout << "\n--- Route Optimization Summary ---" << endl;
+    cout << "Optimized Path : ";
+    CustomList<string>::Node* node = path.getHead();
     while (node != nullptr) {
-        std::cout << node->data;
-        if (node->next != nullptr) std::cout << " -> ";
+        cout << node->data;
+        if (node->next != nullptr) cout << " -> ";
         node = node->next;
     }
-    std::cout << std::endl;
+    cout << endl;
 
-    std::cout << "Shortest Distance    : " << rawDistance << " km" << std::endl;
-    std::cout << "Actual Route Distance: " << timeOptimizedDistance << " km (Traffic Adjusted)" << std::endl;
-    std::cout << "Estimated Travel Time: " << travelTime << " mins" << std::endl;
-    std::cout << "Estimated Delivery Fee: $" << estimateDeliveryFee(timeOptimizedDistance, timeOptimizedDistance / (rawDistance + 0.01)) << std::endl;
-    std::cout << "----------------------------------\n" << std::endl;
+    cout << "Shortest Distance    : " << rawDistance << " km" << endl;
+    cout << "Actual Route Distance: " << timeOptimizedDistance << " km (Traffic Adjusted)" << endl;
+    cout << "Estimated Travel Time: " << travelTime << " mins" << endl;
+    cout << "Estimated Delivery Fee: $" << estimateDeliveryFee(timeOptimizedDistance, timeOptimizedDistance / (rawDistance + 0.01)) << endl;
+    cout << "----------------------------------\n" << endl;
 }

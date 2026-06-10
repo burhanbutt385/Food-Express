@@ -2,34 +2,35 @@
 #define ORDER_H
 
 #include <string>
+using namespace std;
 
 class Order {
 private:
-    std::string orderID;
-    std::string customerID;
-    std::string restaurantID;
+    string orderID;
+    string customerID;
+    string restaurantID;
     double priorityScore;
     int preparationTime;    // in minutes
     int deliveryDeadline;   // in minutes from arrival
-    std::string status;     // Placed, Accepted, Queued, Prepared, Assigned, Picked, Delivered, Delayed, Cancelled, Rerouted
+    string status;     // Placed, Accepted, Queued, Prepared, Assigned, Picked, Delivered, Delayed, Cancelled, Rerouted
     int arrivalTime;        // simulation time in minutes
 
 public:
     Order();
-    Order(const std::string& orderId, const std::string& customerId, const std::string& restaurantId,
-          int prepTime, int deadline, int arrival, const std::string& orderStatus = "Placed");
+    Order(const string& orderId, const string& customerId, const string& restaurantId,
+          int prepTime, int deadline, int arrival, const string& orderStatus = "Placed");
 
-    std::string getOrderID() const;
-    std::string getCustomerID() const;
-    std::string getRestaurantID() const;
+    string getOrderID() const;
+    string getCustomerID() const;
+    string getRestaurantID() const;
     double getPriorityScore() const;
     int getPreparationTime() const;
     int getDeliveryDeadline() const;
-    std::string getStatus() const;
+    string getStatus() const;
     int getArrivalTime() const;
 
     void setPriorityScore(double score);
-    void setStatus(const std::string& newStatus);
+    void setStatus(const string& newStatus);
     void setDeliveryDeadline(int deadline);
     void setPreparationTime(int prepTime);
 

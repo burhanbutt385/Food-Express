@@ -1,10 +1,10 @@
 #include "Hasnain/InteractiveCLI.h"
 #include <iostream>
-
+using namespace std;
 int main() {
-  std::cout << "[FoodExpress] Initializing modules..." << std::endl;
+  cout << "[FoodExpress] Initializing modules..." << endl;
   InteractiveCLI cli;
   cli.start();
-  std::cout << "[FoodExpress] Shutdown clean. Goodbye!" << std::endl;
+  cout << "[FoodExpress] Shutdown clean. Goodbye!" << endl;
   return 0;
 }

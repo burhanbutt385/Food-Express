@@ -1,16 +1,17 @@
 #include "Restaurant.h"
+using namespace std;
 
 Restaurant::Restaurant() 
     : restaurantID(""), name(""), locationNodeID(""), maxCapacity(5), currentLoad(0) {}
 
-Restaurant::Restaurant(const std::string& id, const std::string& restaurantName, 
-                       const std::string& locationId, int capacity, int load)
+Restaurant::Restaurant(const string& id, const string& restaurantName, 
+                       const string& locationId, int capacity, int load)
     : restaurantID(id), name(restaurantName), locationNodeID(locationId), 
       maxCapacity(capacity), currentLoad(load) {}
 
-std::string Restaurant::getRestaurantID() const { return restaurantID; }
-std::string Restaurant::getName() const { return name; }
-std::string Restaurant::getLocationNodeID() const { return locationNodeID; }
+string Restaurant::getRestaurantID() const { return restaurantID; }
+string Restaurant::getName() const { return name; }
+string Restaurant::getLocationNodeID() const { return locationNodeID; }
 int Restaurant::getMaxCapacity() const { return maxCapacity; }
 int Restaurant::getCurrentLoad() const { return currentLoad; }
 

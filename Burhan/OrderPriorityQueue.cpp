@@ -1,4 +1,5 @@
 #include "OrderPriorityQueue.h"
+using namespace std;
 
 OrderPriorityQueue::OrderPriorityQueue(int initialCapacity)
     : capacity(initialCapacity), heapSize(0) {
@@ -91,7 +92,7 @@ void OrderPriorityQueue::clear() {
     heapSize = 0;
 }
 
-bool OrderPriorityQueue::updatePriority(const std::string& orderId, double newScore) {
+bool OrderPriorityQueue::updatePriority(const string& orderId, double newScore) {
     // Find index of order
     for (int i = 0; i < heapSize; i++) {
         if (heapArray[i]->getOrderID() == orderId) {
@@ -109,7 +110,7 @@ bool OrderPriorityQueue::updatePriority(const std::string& orderId, double newSc
     return false;
 }
 
-bool OrderPriorityQueue::remove(const std::string& orderId) {
+bool OrderPriorityQueue::remove(const string& orderId) {
     // Find index of order
     for (int i = 0; i < heapSize; i++) {
         if (heapArray[i]->getOrderID() == orderId) {

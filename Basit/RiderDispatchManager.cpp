@@ -4,8 +4,8 @@
 #include "../Ahmer/Customer.h"
 #include "../Basit/Restaurant.h"
 #include <iostream>
-#include <iomanip>
-#include <limits>
+
+using namespace std;
 
 RiderDispatchManager::RiderDispatchManager() {}
 
@@ -31,12 +31,12 @@ Rider* RiderDispatchManager::findOptimalRider(Order* order, CustomList<Rider*>& 
     // E.g., R01 -> Downtown, R02 -> Suburbs, R03 -> BusinessDistrict, R04 -> Uptown.
     // This is simple and extremely robust!
     // Let's write a simple helper in `RiderDispatchManager.cpp`:
-    // `std::string getRestaurantLocation(const std::string& restaurantID)`
+    // `string getRestaurantLocation(const string& restaurantID)`
     // R01 = "Downtown", R02 = "Suburbs", R03 = "BusinessDistrict", R04 = "Uptown".
     // This is extremely simple and works perfectly with our bootstrapped default files!
     
-    std::string destNode = "Gulberg";
-    std::string rId = order->getRestaurantID();
+    string destNode = "Gulberg";
+    string rId = order->getRestaurantID();
     if (rId == "R01") destNode = "Gulberg";
     else if (rId == "R02") destNode = "Anarkali";
     else if (rId == "R03") destNode = "DHA";
@@ -46,7 +46,7 @@ Rider* RiderDispatchManager::findOptimalRider(Order* order, CustomList<Rider*>& 
         destNode = rId;
     }
 
-    double bestScore = std::numeric_limits<double>::max();
+    double bestScore = 1e9;
     Rider* optimalRider = nullptr;
 
     CustomList<Rider*>::Node* current = riders.getHead();
@@ -84,9 +84,9 @@ bool RiderDispatchManager::assignRider(Rider* rider, Order* order) {
 
     rider->incrementLoad();
     order->setStatus("Assigned");
-    std::cout << "[RiderDispatchManager] Rider " << rider->getName() << " (" << rider->getRiderID() 
+    cout << "[RiderDispatchManager] Rider " << rider->getName() << " (" << rider->getRiderID() 
               << ") assigned to Order " << order->getOrderID() << ". (Active Load: " 
-              << rider->getCurrentLoad() << "/" << rider->getMaxCapacity() << ")" << std::endl;
+              << rider->getCurrentLoad() << "/" << rider->getMaxCapacity() << ")" << endl;
     return true;
 }
 
@@ -101,8 +101,8 @@ void RiderDispatchManager::completeDelivery(Rider* rider, Order* order, const Cu
     // Wait, where is the customer? By default let's assume we update the rider's location.
     // How do we find the customer location?
     // We can assume customer locations: C01 = Downtown, C02 = Suburbs, C03 = Uptown, C04 = BusinessDistrict, C05 = WestEnd, C06 = EastEnd.
-    std::string custLocation = "Gulberg";
-    std::string cId = order->getCustomerID();
+    string custLocation = "Gulberg";
+    string cId = order->getCustomerID();
     if (cId == "C01") custLocation = "Gulberg";
     else if (cId == "C02") custLocation = "Anarkali";
     else if (cId == "C03") custLocation = "DHA";
@@ -113,33 +113,38 @@ void RiderDispatchManager::completeDelivery(Rider* rider, Order* order, const Cu
 
     rider->setCurrentLocationNodeID(custLocation);
 
-    std::cout << "[RiderDispatchManager] Order " << order->getOrderID() << " successfully delivered by " 
+    cout << "[RiderDispatchManager] Order " << order->getOrderID() << " successfully delivered by " 
               << rider->getName() << "! Rider moved to " << custLocation 
-              << ". Deliveries Completed: " << rider->getDeliveriesCompleted() << std::endl;
+              << ". Deliveries Completed: " << rider->getDeliveriesCompleted() << endl;
+}
+
+static string padString(string s, int width) {
+    if (s.length() >= width) return s;
+    return s + string(width - s.length(), ' ');
 }
 
 void RiderDispatchManager::displayRidersStatus(const CustomList<Rider*>& riders) const {
-    std::cout << "\n================ RIDER STATUS DASHBOARD ================" << std::endl;
-    std::cout << std::left << std::setw(8) << "ID" 
-              << std::setw(15) << "Name" 
-              << std::setw(18) << "Location" 
-              << std::setw(8) << "Load" 
-              << std::setw(12) << "Available" 
-              << std::setw(8) << "Rating" 
-              << "Completions" << std::endl;
-    std::cout << "------------------------------------------------------------------------" << std::endl;
+    cout << "\n================ RIDER STATUS DASHBOARD ================" << endl;
+    cout << padString("ID", 8) 
+         << padString("Name", 15) 
+         << padString("Location", 18) 
+         << padString("Load", 8) 
+         << padString("Available", 12) 
+         << padString("Rating", 8) 
+         << "Completions" << endl;
+    cout << "------------------------------------------------------------------------" << endl;
     
     CustomList<Rider*>::Node* current = riders.getHead();
     while (current != nullptr) {
         Rider* r = current->data;
-        std::cout << std::left << std::setw(8) << r->getRiderID() 
-                  << std::setw(15) << r->getName() 
-                  << std::setw(18) << r->getCurrentLocationNodeID() 
-                  << r->getCurrentLoad() << "/" << r->getMaxCapacity() << "    "
-                  << std::setw(12) << (r->getIsAvailable() ? "Yes" : "No") 
-                  << std::setw(8) << r->getRating() 
-                  << r->getDeliveriesCompleted() << std::endl;
+        cout << padString(r->getRiderID(), 8) 
+             << padString(r->getName(), 15) 
+             << padString(r->getCurrentLocationNodeID(), 18) 
+             << padString(to_string(r->getCurrentLoad()) + "/" + to_string(r->getMaxCapacity()), 8)
+             << padString(r->getIsAvailable() ? "Yes" : "No", 12) 
+             << padString(to_string(r->getRating()).substr(0, 3), 8) 
+             << r->getDeliveriesCompleted() << endl;
         current = current->next;
     }
-    std::cout << "========================================================\n" << std::endl;
+    cout << "========================================================\n" << endl;
 }

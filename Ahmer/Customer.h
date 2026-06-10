@@ -2,24 +2,25 @@
 #define CUSTOMER_H
 
 #include <string>
+using namespace std;
 
 class Customer {
 private:
-    std::string customerID;
-    std::string name;
-    std::string locationNodeID;
+    string customerID;
+    string name;
+    string locationNodeID;
     bool isVIP;
 
 public:
     Customer();
-    Customer(const std::string& id, const std::string& customerName, const std::string& locationId, bool vip = false);
+    Customer(const string& id, const string& customerName, const string& locationId, bool vip = false);
 
-    std::string getCustomerID() const;
-    std::string getName() const;
-    std::string getLocationNodeID() const;
+    string getCustomerID() const;
+    string getName() const;
+    string getLocationNodeID() const;
     bool getIsVIP() const;
 
-    void setLocationNodeID(const std::string& locationId);
+    void setLocationNodeID(const string& locationId);
     void setIsVIP(bool vip);
 };
 

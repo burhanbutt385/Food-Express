@@ -6,6 +6,7 @@
 #include "CustomList.h"
 #include "CustomHashMap.h"
 #include <string>
+using namespace std;
 
 class OrderSchedulingEngine {
 private:
@@ -21,13 +22,13 @@ public:
     void insertOrder(Order* order, bool isVIP, int currentSimTime);
 
     // Cancels an order by ID
-    bool cancelOrder(const std::string& orderId);
+    bool cancelOrder(const string& orderId);
 
     // Updates priority score of an order manually
-    bool updateOrderPriority(const std::string& orderId, double newScore);
+    bool updateOrderPriority(const string& orderId, double newScore);
 
     // Handles a delay: extends deadline and recalculates priority
-    bool delayOrder(const std::string& orderId, int delayMinutes, int currentSimTime);
+    bool delayOrder(const string& orderId, int delayMinutes, int currentSimTime);
 
     // Retrieves and removes the next order to process
     Order* getNextProcessableOrder();
@@ -36,8 +37,8 @@ public:
     void rescheduleActiveOrders(int currentSimTime);
 
     // Adds a customer VIP status to cache
-    void setCustomerVIPStatus(const std::string& customerId, bool isVIP);
-    bool isCustomerVIP(const std::string& customerId) const;
+    void setCustomerVIPStatus(const string& customerId, bool isVIP);
+    bool isCustomerVIP(const string& customerId) const;
 
     CustomList<Order*>& getAllOrders();
     OrderPriorityQueue& getActiveOrdersQueue();

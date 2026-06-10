@@ -1,5 +1,6 @@
 #ifndef PERFORMANCE_ANALYZER_H
 #define PERFORMANCE_ANALYZER_H
+using namespace std;
 
 class PerformanceAnalyzer {
 public:

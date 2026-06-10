@@ -1,4 +1,5 @@
 #include "SearchEngine.h"
+using namespace std;
 
 SearchEngine::SearchEngine() {}
 
@@ -28,35 +29,35 @@ void SearchEngine::indexCustomer(Customer* customer) {
     }
 }
 
-void SearchEngine::removeOrderIndex(const std::string& orderId) {
+void SearchEngine::removeOrderIndex(const string& orderId) {
     orderIndex.remove(orderId);
 }
 
-Order* SearchEngine::findOrder(const std::string& orderId) const {
+Order* SearchEngine::findOrder(const string& orderId) const {
     Order* val = nullptr;
     orderIndex.get(orderId, val);
     return val;
 }
 
-Rider* SearchEngine::findRider(const std::string& riderId) const {
+Rider* SearchEngine::findRider(const string& riderId) const {
     Rider* val = nullptr;
     riderIndex.get(riderId, val);
     return val;
 }
 
-Restaurant* SearchEngine::findRestaurant(const std::string& restaurantId) const {
+Restaurant* SearchEngine::findRestaurant(const string& restaurantId) const {
     Restaurant* val = nullptr;
     restaurantIndex.get(restaurantId, val);
     return val;
 }
 
-Customer* SearchEngine::findCustomer(const std::string& customerId) const {
+Customer* SearchEngine::findCustomer(const string& customerId) const {
     Customer* val = nullptr;
     customerIndex.get(customerId, val);
     return val;
 }
 
-CustomList<Order*> SearchEngine::getOrdersByCustomer(const std::string& customerId) const {
+CustomList<Order*> SearchEngine::getOrdersByCustomer(const string& customerId) const {
     CustomList<Order*> results;
     int size = orderIndex.getTableSize();
     CustomHashMap<Order*>::HashNode** table = orderIndex.getTable();
@@ -107,7 +108,7 @@ CustomList<Restaurant*> SearchEngine::getOverloadedRestaurants(double workloadTh
     return results;
 }
 
-CustomList<Order*> SearchEngine::getOrdersByStatus(const std::string& status) const {
+CustomList<Order*> SearchEngine::getOrdersByStatus(const string& status) const {
     CustomList<Order*> results;
     int size = orderIndex.getTableSize();
     CustomHashMap<Order*>::HashNode** table = orderIndex.getTable();

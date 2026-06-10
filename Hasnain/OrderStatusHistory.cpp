@@ -1,9 +1,10 @@
 #include "OrderStatusHistory.h"
 #include <iostream>
+using namespace std;
 
 OrderStatusHistory::OrderStatusHistory() : orderID("") {}
 
-OrderStatusHistory::OrderStatusHistory(const std::string& orderId, const std::string& initialStatus, int initialTime)
+OrderStatusHistory::OrderStatusHistory(const string& orderId, const string& initialStatus, int initialTime)
     : orderID(orderId) {
     StatusTransition transition(initialStatus, initialTime);
     undoStack.push(transition);
@@ -12,7 +13,7 @@ OrderStatusHistory::OrderStatusHistory(const std::string& orderId, const std::st
 
 OrderStatusHistory::~OrderStatusHistory() {}
 
-void OrderStatusHistory::recordTransition(Order* order, const std::string& newStatus, int currentSimTime) {
+void OrderStatusHistory::recordTransition(Order* order, const string& newStatus, int currentSimTime) {
     if (order == nullptr || order->getOrderID() != orderID) return;
 
     // Check if newStatus is different from current status to avoid duplicate logs
@@ -28,7 +29,7 @@ bool OrderStatusHistory::undoLastTransition(Order* order, int currentSimTime) {
     if (order == nullptr || order->getOrderID() != orderID) return false;
     if (undoStack.size() <= 1) {
         // Can't undo further than the initial transition
-        std::cout << "[OrderStatusHistory] Cannot undo: Order " << orderID << " is at its initial state." << std::endl;
+        cout << "[OrderStatusHistory] Cannot undo: Order " << orderID << " is at its initial state." << endl;
         return false;
     }
 
@@ -45,25 +46,25 @@ bool OrderStatusHistory::undoLastTransition(Order* order, int currentSimTime) {
     StatusTransition undoTransition("Undone to " + prevState.status, currentSimTime);
     timeline.pushBack(undoTransition);
 
-    std::cout << "[OrderStatusHistory] UNDO: Reverted Order " << orderID 
-              << " to status: '" << prevState.status << "'" << std::endl;
+    cout << "[OrderStatusHistory] UNDO: Reverted Order " << orderID 
+              << " to status: '" << prevState.status << "'" << endl;
     return true;
 }
 
 void OrderStatusHistory::replayTimeline() const {
-    std::cout << "\nTimeline Replay for Order: " << orderID << std::endl;
-    std::cout << "---------------------------------------" << std::endl;
+    cout << "\nTimeline Replay for Order: " << orderID << endl;
+    cout << "---------------------------------------" << endl;
     
     CustomList<StatusTransition>::Node* current = timeline.getHead();
     int step = 1;
     while (current != nullptr) {
-        std::cout << step++ << ". [Sim Time: " << current->data.timestamp << " min] status: " 
-                  << current->data.status << std::endl;
+        cout << step++ << ". [Sim Time: " << current->data.timestamp << " min] status: " 
+                  << current->data.status << endl;
         current = current->next;
     }
-    std::cout << "---------------------------------------\n" << std::endl;
+    cout << "---------------------------------------\n" << endl;
 }
 
-std::string OrderStatusHistory::getOrderID() const { return orderID; }
+string OrderStatusHistory::getOrderID() const { return orderID; }
 
 const CustomList<StatusTransition>& OrderStatusHistory::getTimeline() const { return timeline; }

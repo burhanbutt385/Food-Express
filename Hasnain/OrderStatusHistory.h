@@ -5,28 +5,29 @@
 #include "../Burhan/CustomStack.h"
 #include "../Burhan/CustomList.h"
 #include <string>
+using namespace std;
 
 struct StatusTransition {
-    std::string status;
+    string status;
     int timestamp; // Simulated time in minutes
 
     StatusTransition() : status(""), timestamp(0) {}
-    StatusTransition(const std::string& stat, int time) : status(stat), timestamp(time) {}
+    StatusTransition(const string& stat, int time) : status(stat), timestamp(time) {}
 };
 
 class OrderStatusHistory {
 private:
     CustomStack<StatusTransition> undoStack;
     CustomList<StatusTransition> timeline;
-    std::string orderID;
+    string orderID;
 
 public:
     OrderStatusHistory();
-    OrderStatusHistory(const std::string& orderId, const std::string& initialStatus, int initialTime);
+    OrderStatusHistory(const string& orderId, const string& initialStatus, int initialTime);
     ~OrderStatusHistory();
 
     // Records a new status transition
-    void recordTransition(Order* order, const std::string& newStatus, int currentSimTime);
+    void recordTransition(Order* order, const string& newStatus, int currentSimTime);
 
     // Reverts the order to the previous status using the stack
     bool undoLastTransition(Order* order, int currentSimTime);
@@ -34,7 +35,7 @@ public:
     // Replays the timeline of status transitions
     void replayTimeline() const;
 
-    std::string getOrderID() const;
+    string getOrderID() const;
     const CustomList<StatusTransition>& getTimeline() const;
 };
 

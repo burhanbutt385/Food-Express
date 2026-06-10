@@ -8,6 +8,7 @@
 #include "../Burhan/CustomList.h"
 #include "../Burhan/CustomHashMap.h"
 #include <string>
+using namespace std;
 
 class SearchEngine {
 private:
@@ -27,19 +28,19 @@ public:
     void indexCustomer(Customer* customer);
 
     // Index removals (e.g. on deletion/cancellation)
-    void removeOrderIndex(const std::string& orderId);
+    void removeOrderIndex(const string& orderId);
 
     // O(1) Lookups
-    Order* findOrder(const std::string& orderId) const;
-    Rider* findRider(const std::string& riderId) const;
-    Restaurant* findRestaurant(const std::string& restaurantId) const;
-    Customer* findCustomer(const std::string& customerId) const;
+    Order* findOrder(const string& orderId) const;
+    Rider* findRider(const string& riderId) const;
+    Restaurant* findRestaurant(const string& restaurantId) const;
+    Customer* findCustomer(const string& customerId) const;
 
     // Filtered searches
-    CustomList<Order*> getOrdersByCustomer(const std::string& customerId) const;
+    CustomList<Order*> getOrdersByCustomer(const string& customerId) const;
     CustomList<Rider*> getAvailableRiders() const;
     CustomList<Restaurant*> getOverloadedRestaurants(double workloadThreshold = 1.0) const;
-    CustomList<Order*> getOrdersByStatus(const std::string& status) const;
+    CustomList<Order*> getOrdersByStatus(const string& status) const;
 
     // Rebuild indexes from master lists
     void rebuildOrderIndex(const CustomList<Order*>& allOrders);

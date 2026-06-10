@@ -2,12 +2,13 @@
 #define RIDER_H
 
 #include <string>
+using namespace std;
 
 class Rider {
 private:
-    std::string riderID;
-    std::string name;
-    std::string currentLocationNodeID;
+    string riderID;
+    string name;
+    string currentLocationNodeID;
     int maxCapacity;
     int currentLoad;
     bool isAvailable;
@@ -16,19 +17,19 @@ private:
 
 public:
     Rider();
-    Rider(const std::string& id, const std::string& riderName, const std::string& locationId,
+    Rider(const string& id, const string& riderName, const string& locationId,
           int capacity, int load = 0, bool available = true, double riderRating = 5.0, int completed = 0);
 
-    std::string getRiderID() const;
-    std::string getName() const;
-    std::string getCurrentLocationNodeID() const;
+    string getRiderID() const;
+    string getName() const;
+    string getCurrentLocationNodeID() const;
     int getMaxCapacity() const;
     int getCurrentLoad() const;
     bool getIsAvailable() const;
     double getRating() const;
     int getDeliveriesCompleted() const;
 
-    void setCurrentLocationNodeID(const std::string& locationId);
+    void setCurrentLocationNodeID(const string& locationId);
     void setCurrentLoad(int load);
     void incrementLoad();
     void decrementLoad();

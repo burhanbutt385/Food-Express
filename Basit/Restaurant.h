@@ -2,23 +2,24 @@
 #define RESTAURANT_H
 
 #include <string>
+using namespace std;
 
 class Restaurant {
 private:
-    std::string restaurantID;
-    std::string name;
-    std::string locationNodeID;
+    string restaurantID;
+    string name;
+    string locationNodeID;
     int maxCapacity;
     int currentLoad;
 
 public:
     Restaurant();
-    Restaurant(const std::string& id, const std::string& restaurantName, 
-               const std::string& locationId, int capacity, int load = 0);
+    Restaurant(const string& id, const string& restaurantName, 
+               const string& locationId, int capacity, int load = 0);
 
-    std::string getRestaurantID() const;
-    std::string getName() const;
-    std::string getLocationNodeID() const;
+    string getRestaurantID() const;
+    string getName() const;
+    string getLocationNodeID() const;
     int getMaxCapacity() const;
     int getCurrentLoad() const;
 

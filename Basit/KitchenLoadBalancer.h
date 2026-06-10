@@ -5,6 +5,7 @@
 #include "../Burhan/Order.h"
 #include "../Burhan/CustomList.h"
 #include <string>
+using namespace std;
 
 class KitchenLoadBalancer {
 public:
@@ -17,7 +18,7 @@ public:
     Restaurant* assignOrderToKitchen(Order* order, CustomList<Restaurant*>& restaurants, bool autoRebalance = true);
 
     // Estimates waiting time for an order at a specific restaurant
-    int estimateWaitingTime(const std::string& restaurantId, Order* order, const CustomList<Restaurant*>& restaurants) const;
+    int estimateWaitingTime(const string& restaurantId, Order* order, const CustomList<Restaurant*>& restaurants) const;
 
     // Checks and returns a list of overloaded restaurants
     CustomList<Restaurant*> getOverloadedKitchens(const CustomList<Restaurant*>& restaurants) const;

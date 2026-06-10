@@ -3,6 +3,7 @@
 
 #include "Order.h"
 #include <string>
+using namespace std;
 
 class OrderPriorityQueue {
 private:
@@ -26,10 +27,10 @@ public:
     void clear();
 
     // Updates priority score of an order by ID and restores heap property
-    bool updatePriority(const std::string& orderId, double newScore);
+    bool updatePriority(const string& orderId, double newScore);
     
     // Cancels/removes an order from the queue by ID
-    bool remove(const std::string& orderId);
+    bool remove(const string& orderId);
 
     // Expose raw access for iteration/searching
     Order** getHeapArray() const { return heapArray; }

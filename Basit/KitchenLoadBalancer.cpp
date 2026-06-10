@@ -1,12 +1,13 @@
 #include "KitchenLoadBalancer.h"
 #include <iostream>
+using namespace std;
 
 KitchenLoadBalancer::KitchenLoadBalancer() {}
 
 KitchenLoadBalancer::~KitchenLoadBalancer() {}
 
 Restaurant* KitchenLoadBalancer::assignOrderToKitchen(Order* order, CustomList<Restaurant*>& restaurants, bool autoRebalance) {
-    std::string targetRestId = order->getRestaurantID();
+    string targetRestId = order->getRestaurantID();
     Restaurant* originalRestaurant = nullptr;
 
     // Find original restaurant
@@ -20,15 +21,15 @@ Restaurant* KitchenLoadBalancer::assignOrderToKitchen(Order* order, CustomList<R
     }
 
     if (originalRestaurant == nullptr) {
-        std::cout << "[KitchenLoadBalancer] Error: Restaurant " << targetRestId << " not found!" << std::endl;
+        cout << "[KitchenLoadBalancer] Error: Restaurant " << targetRestId << " not found!" << endl;
         return nullptr;
     }
 
     // Check if the original restaurant is overloaded
     if (originalRestaurant->isOverloaded()) {
-        std::cout << "[KitchenLoadBalancer] WARNING: Kitchen " << originalRestaurant->getName() 
+        cout << "[KitchenLoadBalancer] WARNING: Kitchen " << originalRestaurant->getName() 
                   << " (" << originalRestaurant->getRestaurantID() << ") is OVERLOADED! (Load: " 
-                  << originalRestaurant->getCurrentLoad() << "/" << originalRestaurant->getMaxCapacity() << ")" << std::endl;
+                  << originalRestaurant->getCurrentLoad() << "/" << originalRestaurant->getMaxCapacity() << ")" << endl;
 
         if (autoRebalance) {
             // Find a sister restaurant with the lowest workload ratio that has spare capacity
@@ -49,10 +50,10 @@ Restaurant* KitchenLoadBalancer::assignOrderToKitchen(Order* order, CustomList<R
             }
 
             if (alternativeRestaurant != nullptr) {
-                std::cout << "[KitchenLoadBalancer] ACTION: Rebalanced Order " << order->getOrderID() 
+                cout << "[KitchenLoadBalancer] ACTION: Rebalanced Order " << order->getOrderID() 
                           << " from " << originalRestaurant->getName() << " to " 
                           << alternativeRestaurant->getName() << " (" << alternativeRestaurant->getRestaurantID() 
-                          << ") to ease workload." << std::endl;
+                          << ") to ease workload." << endl;
 
                 // Reassign order
                 order->setDeliveryDeadline(order->getDeliveryDeadline() + 5); // Add a small delay due to rerouting
@@ -60,8 +61,8 @@ Restaurant* KitchenLoadBalancer::assignOrderToKitchen(Order* order, CustomList<R
                 alternativeRestaurant->incrementLoad();
                 return alternativeRestaurant;
             } else {
-                std::cout << "[KitchenLoadBalancer] NOTICE: No alternative kitchen has spare capacity. Order remains at " 
-                          << originalRestaurant->getName() << "." << std::endl;
+                cout << "[KitchenLoadBalancer] NOTICE: No alternative kitchen has spare capacity. Order remains at " 
+                          << originalRestaurant->getName() << "." << endl;
             }
         }
     }
@@ -71,7 +72,7 @@ Restaurant* KitchenLoadBalancer::assignOrderToKitchen(Order* order, CustomList<R
     return originalRestaurant;
 }
 
-int KitchenLoadBalancer::estimateWaitingTime(const std::string& restaurantId, Order* order, const CustomList<Restaurant*>& restaurants) const {
+int KitchenLoadBalancer::estimateWaitingTime(const string& restaurantId, Order* order, const CustomList<Restaurant*>& restaurants) const {
     CustomList<Restaurant*>::Node* current = restaurants.getHead();
     while (current != nullptr) {
         if (current->data->getRestaurantID() == restaurantId) {
@@ -98,24 +99,24 @@ CustomList<Restaurant*> KitchenLoadBalancer::getOverloadedKitchens(const CustomL
 
 void KitchenLoadBalancer::balanceWorkloads(CustomList<Restaurant*>& restaurants) {
     // Check if any kitchen is highly overloaded and others are empty, print report suggestions
-    std::cout << "\n================ KITCHEN WORKLOAD REPORT ================" << std::endl;
+    cout << "\n================ KITCHEN WORKLOAD REPORT ================" << endl;
     CustomList<Restaurant*>::Node* current = restaurants.getHead();
     while (current != nullptr) {
         Restaurant* r = current->data;
         double ratio = r->getWorkloadRatio();
-        std::cout << "- " << r->getName() << " (" << r->getRestaurantID() << "): " 
+        cout << "- " << r->getName() << " (" << r->getRestaurantID() << "): " 
                   << r->getCurrentLoad() << "/" << r->getMaxCapacity() << " Active Orders (";
         if (ratio >= 1.0) {
-            std::cout << "OVERLOADED - CRITICAL";
+            cout << "OVERLOADED - CRITICAL";
         } else if (ratio >= 0.7) {
-            std::cout << "HIGH LOAD";
+            cout << "HIGH LOAD";
         } else if (ratio >= 0.4) {
-            std::cout << "MODERATE LOAD";
+            cout << "MODERATE LOAD";
         } else {
-            std::cout << "NORMAL LOAD";
+            cout << "NORMAL LOAD";
         }
-        std::cout << ")" << std::endl;
+        cout << ")" << endl;
         current = current->next;
     }
-    std::cout << "=========================================================\n" << std::endl;
+    cout << "=========================================================\n" << endl;
 }
